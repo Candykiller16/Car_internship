@@ -39,6 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'django_countries',
+
+    'src.car.apps.CarConfig',
+    'src.customer.apps.CustomerConfig',
+    'src.dealer.apps.DealerConfig',
+    'src.showroom.apps.ShowroomConfig',
+    'src.transaction.apps.TransactionConfig',
+    'src.users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +77,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 WSGI_APPLICATION = 'internship_car_project.wsgi.application'
 
