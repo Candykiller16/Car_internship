@@ -7,6 +7,8 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 django-countries = "*"
+psycopg2-binary = "*"
+django-environ = "*"
 
 [dev-packages]
 
