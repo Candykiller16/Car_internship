@@ -11,6 +11,7 @@ class FromDealerToShowroomTransaction(Created):
     car = models.ForeignKey("car.Car", on_delete=models.PROTECT, related_name="car_for_sale", null=True, blank=True)
     discount = models.PositiveIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(50)])  # подумать над реализацией FK на DiscountDealer
+    price = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
 
     class Meta:
         db_table = "transactions_from_dealer_to_showroom"
@@ -27,6 +28,7 @@ class FromShowroomToCustomerTransaction(Created):
     car = models.ForeignKey("car.Car", on_delete=models.PROTECT, related_name="car_to_customer")
     discount = models.PositiveIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(50)])  # подумать над реализацией FK на DiscountShowroom
+    price = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
 
     class Meta:
         db_table = "transactions_from_showroom_to_customer"

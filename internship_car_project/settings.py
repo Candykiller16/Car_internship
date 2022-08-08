@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_countries',
+    'django_filters',
 
     'src.car.apps.CarConfig',
     'src.customer.apps.CustomerConfig',
@@ -97,7 +98,7 @@ DATABASES = {
         'NAME': env('DATABASE_NAME'),
         'USER': env('DATABASE_USER'),
         'PASSWORD': env('DATABASE_PASS'),
-        'HOST': 'db',
+        'HOST': "db",
         'PORT': '5432',
     }
 }

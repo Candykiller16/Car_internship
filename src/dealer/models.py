@@ -9,7 +9,7 @@ from src.users.models import CustomUser
 
 
 class Dealer(Statuses, Info):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="dealer", null=True, blank=True)
     found_year = models.PositiveIntegerField(default=datetime.datetime.today().year, null=True, blank=True)
     bio = models.TextField(null=True)
     number_of_buyers = models.PositiveIntegerField(default=0)

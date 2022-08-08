@@ -1,8 +1,8 @@
-version: '3.3'
+version: "3.3"
 
 services:
   db:
-    image: postgres:10.0-alpine
+    image: 'postgres:latest'
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
@@ -24,9 +24,12 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    links:
+      - db:db
     env_file:
       - .env
     environment:
       - SECRET_KEY="${SECRET_KEY}"
 volumes:
   postgres_data:
+    driver: local
