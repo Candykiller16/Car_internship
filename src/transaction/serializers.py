@@ -1,11 +1,11 @@
 from django_countries.serializers import CountryFieldMixin
 from rest_framework import serializers
 
+from src.car.serializers import CarSerializer
+from src.customer.serializers import CustomerShortInfoSerializer
+from src.dealer.serializers import DealerShortInfoSerializer
 from src.showroom.serializers import ShowroomShortInfoSerializer
 from src.transaction.models import FromShowroomToCustomerTransaction, FromDealerToShowroomTransaction
-from src.dealer.serializers import DealerShortInfoSerializer
-from src.customer.serializers import CustomerShortInfoSerializer
-from src.car.serializers import CarSerializer
 
 
 class FromDealerToShowroomTransactionSerializer(serializers.ModelSerializer):
