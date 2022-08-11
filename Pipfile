@@ -10,6 +10,8 @@ django-countries = "*"
 psycopg2-binary = "*"
 django-environ = "*"
 django-filter = "*"
+pytest = "*"
+pytest-django = "*"
 
 [dev-packages]
 
