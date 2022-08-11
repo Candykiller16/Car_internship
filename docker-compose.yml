@@ -2,15 +2,13 @@ version: '3.3'
 
 services:
   db:
-    image: postgres:10.0-alpine
+    image: postgres:14.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - DATABASE_NAME="${DATABASE_NAME}"
-      - DATABASE_USER="${DATABASE_USER}"
-      - DATABASE_PASS="${DATABASE_PASS}"
+    env_file:
+      - ./.env
     ports:
-      - "5432:5432"
+      - 5433:5432
   web:
     build: .
     command: sh -c "
@@ -25,8 +23,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
-    environment:
-      - SECRET_KEY="${SECRET_KEY}"
+      - ./.env
 volumes:
   postgres_data:
+    driver: local

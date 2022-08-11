@@ -6,7 +6,7 @@ from core.data_and_funcs import default_showroom_priorities
 
 class Showroom(Statuses, Info):
     """ Showroom """
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="showroom", null=True, blank=True)
     priorities = models.JSONField(
         encoder=None,
         decoder=None,

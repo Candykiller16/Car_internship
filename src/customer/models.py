@@ -2,6 +2,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from src.users.models import CustomUser
 from core.abstract_models import Info, Statuses
+from core.data_and_funcs import default_showroom_priorities
 
 
 class Customer(Statuses, Info):
@@ -22,9 +23,9 @@ class CustomerOffer(Statuses):
     customer = models.ForeignKey(
         Customer, on_delete=models.PROTECT, related_name="customer_offers", null=True, blank=True,
     )
-    car = models.ForeignKey(
-        "car.Car", on_delete=models.PROTECT, related_name="ordered_car", null=True, blank=True,
-    )
+    selected_car = models.JSONField(encoder=None,
+                                    decoder=None,
+                                    default=default_showroom_priorities)
     price = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
 
     class Meta:
