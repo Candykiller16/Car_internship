@@ -12,6 +12,7 @@ django-environ = "*"
 django-filter = "*"
 pytest = "*"
 pytest-django = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
