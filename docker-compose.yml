@@ -22,8 +22,50 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
     env_file:
       - ./.env
+
+  celery:
+    build: .
+    command: celery -A internship_car_project worker -B
+    volumes:
+      - project_data:/usr/src/app/
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+
+  beat:
+    build: .
+    command: celery -A internship_car_project beat -l INFO
+    volumes:
+      - project_data:/usr/src/app/
+    env_file:
+      - ./.env
+    depends_on:
+      - celery
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    depends_on:
+      - db
+
+  flower:
+    build: .
+    #    command: flower -A internship_car_project --port=5555 --broker=redis://redis:6379/0
+    command: celery -A internship_car_project flower
+    ports:
+      - "5555:5555"
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+      - redis
+      - celery
 volumes:
   postgres_data:
     driver: local
+  project_data:

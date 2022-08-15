@@ -1,15 +1,14 @@
 import random
+
 from django.db.models.signals import post_save, post_delete
+
+from core.data_and_funcs import get_random_name_and_model
 from src.showroom.models import Showroom
 from src.users.models import CustomUser
-from core.data_and_funcs import cars_models, get_random_color, get_random_body_type, get_random_transmission, \
-    get_random_year
-
-default_name = random.choice(list(cars_models.keys()))
-default_model = random.choice(list(cars_models[default_name]))
 
 
 def createShowroom(sender, instance, created, **kwargs):
+    dictionary = get_random_name_and_model()
     if created:
         user = instance
         if user.is_showroom:
@@ -19,12 +18,10 @@ def createShowroom(sender, instance, created, **kwargs):
                 name=user.first_name,
                 country='BY',
                 balance=random.randint(10000, 100000),
-                priorities={"name": default_name,
-                            "model": default_model,
-                            "color": get_random_color(),
-                            "year": get_random_year(),
-                            "body_type": get_random_body_type(),
-                            "transmission": get_random_transmission()}
+                price_increase=random.randint(10, 25),
+                priorities={"name": list(dictionary.keys())[0],
+                            "model": list(dictionary.values())[0],
+                            }
             )
 
 

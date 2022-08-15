@@ -782,12 +782,27 @@ def get_random_transmission():
 def get_random_year():
     return random.randint(1980, 2021)
 
+def get_random_name_and_model():
+    default_name = random.choice(list(cars_models.keys()))
+    default_model = random.choice(list(cars_models[default_name]))
+    dictionary = {default_name: default_model}
+    return dictionary
+
+
+def default_customer_priorities():
+    dictionary = get_random_name_and_model()
+    return {"name": list(dictionary.keys())[0],
+            "model": list(dictionary.values())[0],
+            "body_type": get_random_body_type(),
+            "transmission_type": get_random_transmission(),
+            "color": get_random_color(),
+            "year": get_random_year(),
+            "price": random.randint(10000, 15000)
+            }
+
 
 def default_showroom_priorities():
-    return {"make": "BMW",
-            "model": "Model I",
-            "color": "Red",
-            "year": "2010",
-            "body_type": "Sedan"}
+    return {"name": "BMW",
+            "model": "i8"}
 
 
