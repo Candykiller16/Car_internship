@@ -15,11 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_swagger.views import get_swagger_view
+
+from internship_car_project import settings
+
+schema_view = get_swagger_view(title='Showroom API')
 
 urlpatterns = [
+    path('swagger/', schema_view),
     path('admin/', admin.site.urls),
     path('api/', include('src.customer.urls')),
     path('api/', include('src.dealer.urls')),
     path('api/', include('src.showroom.urls')),
     path('api/', include('src.transaction.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns = [path('__debug__/', include('debug_toolbar.urls')), ] + urlpatterns
