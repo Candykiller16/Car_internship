@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
-from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Info(models.Model):
@@ -33,8 +32,6 @@ class Discount(models.Model):
     bio = models.TextField(null=True)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=thirty_day_hence)
-    amount_of_discount = models.PositiveIntegerField(default=0,
-                                                     validators=[MinValueValidator(1), MaxValueValidator(100)])
 
     class Meta:
         abstract = True

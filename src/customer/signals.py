@@ -1,8 +1,6 @@
 import random
 
 from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-from django.conf import settings
 
 from src.customer.models import Customer
 from src.users.models import CustomUser
@@ -19,7 +17,7 @@ def createCustomer(sender, instance, created, **kwargs):
                 email=user.email,
                 name=user.first_name,
                 age=random.randint(18, 100),
-                balance=random.randint(3000, 15000),
+                balance=50000,
                 sex=random.choice(sex),
                 country='BY',
             )

@@ -60,4 +60,4 @@ class Car(Statuses):
         db_table = "car"
 
     def __str__(self):
-        return f"{self.name} {self.model} {self.color}"
+        return f"{self.name} Model {self.model} {self.color}"

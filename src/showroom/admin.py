@@ -1,7 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 
-from src.showroom.models import Showroom, DiscountShowroom
+from src.showroom.models import Showroom, DiscountShowroom, ShowroomLoyalty
 
 
 @admin.register(Showroom)
@@ -17,6 +16,7 @@ class ShowroomAdmin(admin.ModelAdmin):
         "country",
 
     )
+
     # list_display = ('unique_buyers',)
     # list_display_links = ('unique_buyers',)
 
@@ -51,7 +51,23 @@ class DiscountShowroomAdmin(admin.ModelAdmin):
     list_filter = (
         "start_date",
         "end_date",
-        "amount_of_discount",
         "is_active",
+        "is_active",
+        "car",
+        "showroom",
+    )
 
+
+@admin.register(ShowroomLoyalty)
+class LoyaltyShowroomAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "created",
+        "updated",
+    )
+    list_filter = (
+        "discount",
+        "bought_cars",
+        "loyalty_count",
+        "showroom",
+        "customer",
     )

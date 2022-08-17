@@ -1,7 +1,5 @@
 from django.contrib import admin
 
-from django.contrib import admin
-
 from src.customer.models import Customer, CustomerOffer
 
 
@@ -28,7 +26,7 @@ class CustomerOrderAdmin(admin.ModelAdmin):
         "updated",
     )
     list_filter = (
-        "price",
+        "is_active",
         "created",
         "updated",
     )

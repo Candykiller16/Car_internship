@@ -3,8 +3,6 @@ from django.db import models
 from django.db.models.functions import datetime
 
 from core.abstract_models import Info, Statuses, Discount
-
-from src.dealer.utils import DiscountRanks
 from src.users.models import CustomUser
 
 
@@ -21,21 +19,16 @@ class Dealer(Statuses, Info):
         return f"{self.name}"
 
 
-class DiscountDealer(models.Model):
+class DiscountDealer(Discount, Statuses):
     """
     Discounts Dealer - ShowRoom
     """
-
-    discount = models.IntegerField(
-        choices=DiscountRanks.DISCOUNT_CHOICES, default=DiscountRanks.REGULAR
-    )
-    # bought_cars = models.PositiveIntegerField(default=0, help_text="")
-    showroom = models.ForeignKey(
-        "showroom.Showroom",
-        related_name="showroom_discounts",
+    discount = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    car = models.ForeignKey(
+        "car.Car",
+        related_name="discount_dealer_car",
         on_delete=models.CASCADE,
         null=True,
-        blank=True,
     )
     dealer = models.ForeignKey(
         "dealer.Dealer",
@@ -46,7 +39,32 @@ class DiscountDealer(models.Model):
 
     class Meta:
         db_table = "dealer_discount"
+        unique_together = ["car", "dealer"]
+
+    def __str__(self):
+        return f"Discount {self.discount} % from '{self.dealer}' for '{self.car}'"
+
+
+class DealerLoyalty(Statuses):
+    discount = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=10)
+    bought_cars = models.PositiveIntegerField(default=0)
+    loyalty_count = models.PositiveIntegerField(default=10)
+    showroom = models.ForeignKey(
+        "showroom.Showroom",
+        related_name="dealer_showroom_loyalties",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+    dealer = models.ForeignKey(
+        "dealer.Dealer",
+        related_name="dealer_loyalties",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
+    class Meta:
+        db_table = "dealer_loyalty"
         unique_together = ["showroom", "dealer"]
 
     def __str__(self):
-        return f"Discount {self.discount} % from '{self.dealer}' to '{self.showroom.name}'"
+        return f" Loyalty program from {self.dealer} to {self.showroom}"
