@@ -16,11 +16,9 @@ def showroom_task_func(car_dealer_search, showroom):
     ).order_by("-price").first()
     if dealer_car:
         with transaction.atomic():
-            if DiscountDealer.objects.filter(car=dealer_car, dealer=dealer_car.dealer):
-                discount = DiscountDealer.objects.filter(car=dealer_car,
-                                                         dealer=dealer_car.dealer).discount
-            else:
-                discount = 0
+            if DiscountDealer.objects.get(car=dealer_car, dealer=dealer_car.dealer):
+                discount = DiscountDealer.objects.get(car=dealer_car,
+                                                      dealer=dealer_car.dealer).discount
 
             loyalty_dealer, created = DealerLoyalty.objects.get_or_create(dealer=dealer_car.dealer,
                                                                           showroom=showroom)

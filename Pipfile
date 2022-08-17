@@ -16,6 +16,7 @@ django-debug-toolbar = "*"
 django-rest-swagger = "*"
 redis = "*"
 celery = "*"
+flower = "*"
 
 [dev-packages]
 
