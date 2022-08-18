@@ -1,14 +1,6 @@
 version: '3.3'
 
 services:
-  db:
-    image: postgres:14.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.env
-    ports:
-      - 5433:5432
   web:
     build: .
     command: sh -c "
@@ -16,7 +8,7 @@ services:
       python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000 "
     volumes:
-      - .:/code
+      - ./:/usr/src/app/
     ports:
       - "8000:8000"
     depends_on:
@@ -24,6 +16,17 @@ services:
       - redis
     env_file:
       - ./.env
+
+
+  db:
+    image: postgres:14.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.db
+    ports:
+      - "5433:5432"
+
 
   celery:
     build: .
@@ -54,7 +57,6 @@ services:
 
   flower:
     build: .
-    #    command: flower -A internship_car_project --port=5555 --broker=redis://redis:6379/0
     command: celery -A internship_car_project flower --port=5555
     ports:
       - "5555:5555"

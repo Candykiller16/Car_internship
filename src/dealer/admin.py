@@ -5,12 +5,23 @@ from src.dealer.models import Dealer, DiscountDealer, DealerLoyalty
 
 @admin.register(Dealer)
 class DealerAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "name",
+        "total_cars",
+        "number_of_buyers",
+        "cars_sold",
+        "income",
+    )
+
     readonly_fields = (
         "created",
         "updated",
         "number_of_buyers",
         "total_cars",
         "unique_buyers",
+        "cars_sold",
+        "income",
     )
     list_filter = (
         "name",
@@ -29,6 +40,15 @@ class DealerAdmin(admin.ModelAdmin):
         list_of_buyers = [i["showroom__name"] for i in buyers]
 
         return ',\n\n'.join(list_of_buyers)
+
+    def cars_sold(self, instance):
+        return Dealer.objects.get(pk=instance.id).dealer_that_sells.values("car__name").count()
+
+    def income(self, instance):
+        count = 0
+        for amount in Dealer.objects.get(pk=instance.id).dealer_that_sells.values("price"):
+            count += float(amount['price'])
+        return count
 
 
 @admin.register(DiscountDealer)

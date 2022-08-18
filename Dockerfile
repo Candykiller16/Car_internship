@@ -4,10 +4,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /code
 
-COPY . /code/
+WORKDIR /usr/src/app/
 
-RUN pip install pipenv
+COPY . /usr/src/app/
 
-RUN pipenv install --system --deploy
+RUN pip install --no-cache-dir -r requirements.txt

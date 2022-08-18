@@ -1,15 +1,25 @@
 from django.contrib import admin
 
+from src.dealer.models import Dealer
 from src.showroom.models import Showroom, DiscountShowroom, ShowroomLoyalty
 
 
 @admin.register(Showroom)
 class ShowroomAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "total_cars",
+        "unique_buyers",
+        "cars_sold",
+        "income",
+    )
     readonly_fields = (
         "created",
         "updated",
         "total_cars",
         "unique_buyers",
+        "cars_sold",
+        "income",
     )
     list_filter = (
         "name",
@@ -29,6 +39,14 @@ class ShowroomAdmin(admin.ModelAdmin):
 
         return ',\n\n'.join(list_of_buyers)
 
+    def cars_sold(self, instance):
+        return Showroom.objects.get(pk=instance.id).showroom_that_sells.values("car__name").count()
+
+    def income(self, instance):
+        count = 0
+        for amount in Showroom.objects.get(pk=instance.id).showroom_that_sells.values("price"):
+            count += float(amount['price'])
+        return count
     #
     # buyers = list(Showroom.objects.get(pk=instance.pk).showroom_that_sells.values("customer__id").distinct())
     # buyers_id = [i["customer__id"] for i in buyers]
